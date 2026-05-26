@@ -9,9 +9,12 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }
-});
+const pgConnectionString = require('pg-connection-string');
+
+const dbConfig = pgConnectionString.parse(process.env.DATABASE_URL || '');
+dbConfig.ssl = { rejectUnauthorized: false };
+
+const pool = new Pool(dbConfig);
 
 async function initDb() {
     try {
