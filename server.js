@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 
 // Using direct parsing to ensure Render doesn't drop the domain suffix
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: "postgresql://main_db_ug3g_user:MOBiz2ykgNQytQPeLbYyIumLArJGeKj7@dpg-d8anre5ckfvc73ckd7r0-a.singapore-postgres.render.com/main_db_ug3g",
     ssl: { rejectUnauthorized: false }
 });
 
