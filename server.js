@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-// Enforced strict environment configuration for production
+// Using direct parsing to ensure Render doesn't drop the domain suffix
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
@@ -61,6 +61,7 @@ function parseCookieSession(req, res, next) {
     if (!match) return next();
     
     const token = match[1];
+    // FIXED: Changed '?' to '$1'
     pool.query("SELECT user_id, username FROM system_sessions WHERE token = $1 AND expires_at > NOW()", [token], (err, result) => {
         if (!err && result && result.rows.length > 0) {
             req.session.userId = result.rows[0].user_id;
@@ -88,6 +89,7 @@ function requireAuth(req, res, next) {
 }
 
 app.get('/', requireAuth, (req, res) => {
+    // FIXED: Changed '?' to '$1'
     pool.query("SELECT * FROM chapters WHERE user_id = $1 ORDER BY id ASC", [req.session.userId], (err, result) => {
         if (err) {
             return res.status(500).send("Database extraction error.");
@@ -112,6 +114,7 @@ app.post('/', requireAuth, (req, res) => {
     const sanitizedTitle = title.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
     const sanitizedContent = content.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
 
+    // FIXED: Changed '?' to '$1, $2, $3'
     const sql = "INSERT INTO chapters (title, content, user_id) VALUES ($1, $2, $3)";
     const params = [sanitizedTitle, sanitizedContent, req.session.userId];
 
@@ -133,6 +136,7 @@ app.post('/login', redirectIfAuth, (req, res) => {
 
     const hashedPassword = hashPassword(password);
 
+    // FIXED: Changed '?' to '$1'
     pool.query("SELECT * FROM users WHERE username = $1", [username.trim()], (err, result) => {
         if (err || !result || result.rows.length === 0 || result.rows[0].password_hash !== hashedPassword) {
             return res.render('login', { pageTitle: "Login", error: "Invalid username or password." });
@@ -141,6 +145,7 @@ app.post('/login', redirectIfAuth, (req, res) => {
         const user = result.rows[0];
         const token = crypto.randomBytes(32).toString('hex');
         
+        // FIXED: Changed '?' to '$1, $2, $3'
         pool.query("INSERT INTO system_sessions (token, user_id, username, expires_at) VALUES ($1, $2, $3, NOW() + INTERVAL '1 hour')", 
             [token, user.id, user.username], (sessionErr) => {
                 if (sessionErr) return res.status(500).send("Session creation error.");
@@ -163,6 +168,7 @@ app.post('/signup', redirectIfAuth, (req, res) => {
 
     const hashedPassword = hashPassword(password);
 
+    // FIXED: Changed '?' to '$1, $2'
     pool.query("INSERT INTO users (username, password_hash) VALUES ($1, $2)", [username.trim(), hashedPassword], (err) => {
         if (err) {
             return res.render('signup', { pageTitle: "Sign Up", error: "Username already taken" });
@@ -173,6 +179,7 @@ app.post('/signup', redirectIfAuth, (req, res) => {
 
 app.get('/logout', (req, res) => {
     if (req.session.token) {
+        // FIXED: Changed '?' to '$1'
         pool.query("DELETE FROM system_sessions WHERE token = $1", [req.session.token], () => {
             res.setHeader('Set-Cookie', 'session_token=; Path=/; HttpOnly; Max-Age=0');
             res.redirect('/login');
@@ -182,7 +189,6 @@ app.get('/logout', (req, res) => {
     }
 });
 
-// App listen isolated to call initDb only at production container runtime
 app.listen(PORT, async () => {
     console.log(`[SYSTEM] Web service container initialized on port ${PORT}.`);
     await initDb();
