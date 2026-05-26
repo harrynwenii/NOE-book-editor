@@ -1,0 +1,180 @@
+:root {
+    --bg: teal;
+    --card: light blue;
+    --text: black;
+    --primary: yellow;
+    --danger: red;
+    --border: brown;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+header, footer {
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 25px;
+}
+
+footer {
+    border-bottom: none;
+    border-top: 1px solid var(--border);
+    margin-top: 50px;
+    font-size: 0.85rem;
+    color: black;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+.badge {
+    background: var(--primary);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.auth-box,
+.editor-interface {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    max-width: 500px;
+    margin: 0 auto 25px auto;
+}
+
+.editor-interface {
+    max-width: 800px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px 0;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: blue;
+}
+
+.user-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: green;
+    padding: 12px 20px;
+    border-radius: 6px;
+    max-width: 800px;
+    margin: 0 auto 25px auto;
+    border: 1px solid var(--border);
+}
+
+.user-profile p {
+    margin: 0;
+}
+
+.btn-logout {
+    color: var(--danger);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.btn-logout:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: var(--danger);
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border: 1px solid black;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.manuscript-output {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.empty-notice {
+    color: yellow;
+    text-align: center;
+    font-style: italic;
+}
+
+.chapter-list {
+    margin-top: 20px;
+}
+
+.chapter-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 6px;
+    border-left: 4px solid var(--primary);
+    margin-bottom: 20px;
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.chapter-card h3 {
+    margin: 0 0 5px 0;
+}
+
+.chapter-card small {
+    color: gray;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.chapter-card p {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--border);
+    margin: 40px auto;
+    max-width: 800px;
+}

@@ -1,0 +1,39 @@
+<%- include('header', {status: 'ACTIVE'}) %>
+<div class="user-profile">
+    <p>Logged in as <strong><%= username %></strong></p>
+    <a href="/logout" class="btn-logout">Log Out</a>
+    </div>
+    <section class="editor-interface">
+    <h2>Create a new chapter!</h2>
+        <form action="/" method="POST">
+        <div class="field">
+        <input type="text" id="title" name="title" placeholder="Chapter: Title" required autocomplete="off">
+        </div>
+        <div class="field">
+        <textarea name="content" placeholder="Type your manuscript here.." rows="8" required>
+        </textarea>
+        </div>
+        <button type="submit">Save edits</button>
+        </form>
+    </section>
+
+    <hr>
+        
+    <section class="manuscript-output">
+    <h2>Result Log</h2>
+        <% if (chapters.length === 0) { %>
+          <p class="empty-notice">Currently empty.</p>
+        <% } else { %>
+        <div class="chapters-list">
+        <% chapters.forEach(chapter => { %>
+        <article class="chapter-card">
+        <h3><%= chapter.title %></h3>
+        <small>Pinned: <%= chapter.created_at %></small>
+        <p><%= chapter.content %></p>
+        </article>
+        <% }) %>
+        </div>
+       <% } %>
+    </section>
+
+    <%- include('footer') %>

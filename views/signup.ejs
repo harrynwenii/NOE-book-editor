@@ -1,0 +1,13 @@
+<%- include('header', {status: 'Registration'}) %>
+    <section class="auth-box">
+    <h2>Sign up for a new account!</h2>
+        <% if (error) { %>
+        <p class="error"><%= error %></p><% } %>
+        <form action="/signup" method="POST">
+        <input type="text" name="username" placeholder="Create a username" required autocomplete="off">
+        <input type="password" name="password" placeholder="(min. 6 characters)" minlength="6" required>
+        <button type="submit">Register</button>
+        </form>
+        <p>Already an author?<a href="/login">Sign in here!</a></p>
+        </section>
+        <%- include('footer') %>

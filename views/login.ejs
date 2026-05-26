@@ -1,0 +1,14 @@
+<%- include('header', {status: 'Authentication required.'}) %>
+    <section class="auth-box">
+    <h2>Time to write some adventures!</h2>
+        <% if (error) { %> 
+        <p class="error"><%= error %></p><% } %>
+        <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Enter Username" required autocomplete="off">
+        <input type="password" name="password" placeholder="Enter Username" required>
+        <button type="submit"> Submit </button>
+        </form>
+        <p>Your ideas will turn into an ideology for desirable readers!
+        <br><a href="/signup"></a></p>
+
+        <%- include('footer') %>
